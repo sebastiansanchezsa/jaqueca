@@ -1,0 +1,11 @@
+bin/
+obj/
+.vs/
+*.user
+screenshots/
+preview/
+crash.log
+publish/
+dist/
+__pycache__/
+audio/grabacion.wav

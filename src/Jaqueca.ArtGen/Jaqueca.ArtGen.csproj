@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Jaqueca.ArtGen</RootNamespace>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jaqueca.Figures\Jaqueca.Figures.csproj" />
+    <ProjectReference Include="..\Jaqueca.Core\Jaqueca.Core.csproj" />
+    <ProjectReference Include="..\Jaqueca.Sprites\Jaqueca.Sprites.csproj" />
+    <ProjectReference Include="..\Jaqueca.Audio\Jaqueca.Audio.csproj" />
+  </ItemGroup>
+</Project>

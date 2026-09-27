@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Jaqueca.Audio</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Para leer el OST (.ogg). El mismo que ya trae MonoGame. -->
+    <PackageReference Include="NVorbis" Version="0.10.4" />
+  </ItemGroup>
+</Project>

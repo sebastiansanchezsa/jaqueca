@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4658E7DB-C28D-483F-8A25-23D0608932DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaqueca.Core", "src\Jaqueca.Core\Jaqueca.Core.csproj", "{99F7CF44-023D-4697-8AB9-8D52AAA50F54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaqueca.Sprites", "src\Jaqueca.Sprites\Jaqueca.Sprites.csproj", "{C6D945A3-EBC9-4DD4-9E3C-6219A91D0806}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaqueca.Figures", "src\Jaqueca.Figures\Jaqueca.Figures.csproj", "{B150DCFD-F350-4B9A-B526-D6E2583772C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaqueca.Audio", "src\Jaqueca.Audio\Jaqueca.Audio.csproj", "{E4F94CB2-F4D7-4A5C-B2C5-0766EA52892E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaqueca.ArtGen", "src\Jaqueca.ArtGen\Jaqueca.ArtGen.csproj", "{E8737905-BDFE-4797-8DCC-09B14B861BD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaqueca.Client", "src\Jaqueca.Client\Jaqueca.Client.csproj", "{E9250024-1647-4981-B2DA-F99BC68330E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{99F7CF44-023D-4697-8AB9-8D52AAA50F54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99F7CF44-023D-4697-8AB9-8D52AAA50F54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99F7CF44-023D-4697-8AB9-8D52AAA50F54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99F7CF44-023D-4697-8AB9-8D52AAA50F54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6D945A3-EBC9-4DD4-9E3C-6219A91D0806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6D945A3-EBC9-4DD4-9E3C-6219A91D0806}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6D945A3-EBC9-4DD4-9E3C-6219A91D0806}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6D945A3-EBC9-4DD4-9E3C-6219A91D0806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B150DCFD-F350-4B9A-B526-D6E2583772C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B150DCFD-F350-4B9A-B526-D6E2583772C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B150DCFD-F350-4B9A-B526-D6E2583772C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B150DCFD-F350-4B9A-B526-D6E2583772C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4F94CB2-F4D7-4A5C-B2C5-0766EA52892E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4F94CB2-F4D7-4A5C-B2C5-0766EA52892E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4F94CB2-F4D7-4A5C-B2C5-0766EA52892E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4F94CB2-F4D7-4A5C-B2C5-0766EA52892E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8737905-BDFE-4797-8DCC-09B14B861BD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8737905-BDFE-4797-8DCC-09B14B861BD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8737905-BDFE-4797-8DCC-09B14B861BD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8737905-BDFE-4797-8DCC-09B14B861BD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9250024-1647-4981-B2DA-F99BC68330E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9250024-1647-4981-B2DA-F99BC68330E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9250024-1647-4981-B2DA-F99BC68330E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9250024-1647-4981-B2DA-F99BC68330E8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{99F7CF44-023D-4697-8AB9-8D52AAA50F54} = {4658E7DB-C28D-483F-8A25-23D0608932DF}
+		{C6D945A3-EBC9-4DD4-9E3C-6219A91D0806} = {4658E7DB-C28D-483F-8A25-23D0608932DF}
+		{B150DCFD-F350-4B9A-B526-D6E2583772C5} = {4658E7DB-C28D-483F-8A25-23D0608932DF}
+		{E4F94CB2-F4D7-4A5C-B2C5-0766EA52892E} = {4658E7DB-C28D-483F-8A25-23D0608932DF}
+		{E8737905-BDFE-4797-8DCC-09B14B861BD2} = {4658E7DB-C28D-483F-8A25-23D0608932DF}
+		{E9250024-1647-4981-B2DA-F99BC68330E8} = {4658E7DB-C28D-483F-8A25-23D0608932DF}
+	EndGlobalSection
+EndGlobal

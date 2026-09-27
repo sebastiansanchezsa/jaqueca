@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Jaqueca.Figures</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jaqueca.Core\Jaqueca.Core.csproj" />
+    <ProjectReference Include="..\Jaqueca.Sprites\Jaqueca.Sprites.csproj" />
+  </ItemGroup>
+</Project>
