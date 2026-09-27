@@ -41,6 +41,12 @@ public sealed class Options
     public bool Frozen;
     /// <summary>Sin sonido (--mudo).</summary>
     public bool Mute;
+    /// <summary>Prueba (--placa): la placa de entrada aunque se esté capturando.</summary>
+    public bool ForceIntro;
+    /// <summary>Prueba (--patear): Ernesto patea solo cada segundo (para mirar la patada).</summary>
+    public bool KickTest;
+    /// <summary>Sin la placa de entrada con la historia (--sinintro; las pruebas y capturas tampoco la muestran).</summary>
+    public bool NoIntro;
 
     public static Options Parse(string[] args)
     {
@@ -71,6 +77,19 @@ public sealed class Options
                 case "--maestra": o.TestTeachers = 1; break;
                 case "--quietos": o.Frozen = true; break;
                 case "--mudo": o.Mute = true; break;
+                case "--sinintro": o.NoIntro = true; break;
+                case "--patear": o.KickTest = true; break;
+                case "--placa": o.ForceIntro = true; break;
+                case "--pierna":
+                {
+                    var v = next.Split(',').Select(F).ToArray();
+                    Game.ViewModel.LegAt = new Microsoft.Xna.Framework.Vector3(v[0], v[1], v[2]);
+                    Game.ViewModel.LegTurn = new Microsoft.Xna.Framework.Vector3(v[3], v[4], v[5]);
+                    Game.ViewModel.LegScale = v[6];
+                    o.KickTest = true;
+                    i++;
+                    break;
+                }
                 case "--perfgpu": Render.Renderer.GpuProfile = true; o.Debug = true; break;
                 // Prueba: dónde va el arma en la mano (adelante,arriba,derecha,giro,cabeceo,rolido,escala).
                 case "--vm":

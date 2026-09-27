@@ -153,8 +153,10 @@ public static class Ernesto
         shoe.Paint = (p, m) => MathF.Sin(p.X * 6) > 0.85f || MathF.Sin(p.Z * 7) > 0.85f ? dark : m;
         f.Box(b, V(0.4f, -0.5f, 0), V(1.75f, 0.1f, 0.66f), sole, part);
         f.Ellipsoid(b, V(-0.7f, 0.45f, 0), V(0.5f, 0.45f, 0.45f), skin, part);                                 // el tobillo
-        var legA = V(-0.8f, 0.6f, 0); var legB = V(-2.2f, 6.5f, 0);
-        var leg = f.Cone(b, legA, 0.8f, legB, 1.05f, pajama, part);
+        // La pierna viene de atrás y de abajo (de la cadera de Ernesto, debajo de la cámara) hacia el pie.
+        var legA = V(-0.8f, 0.5f, 0); var legB = V(-5.5f, -7.5f, 2.8f);
+        var leg = f.Cone(b, legA, 0.8f, legB, 1.1f, pajama, part);
+        f.Cone(b, legA + V(0.1f, 0.05f, 0), 0.86f, legA + V(-0.35f, -0.45f, 0.18f), 0.86f, pajama, part);   // el ruedo del pantalón
         leg.Paint = Stripes(legA, legB, 6, stripe);
         return f;
     }

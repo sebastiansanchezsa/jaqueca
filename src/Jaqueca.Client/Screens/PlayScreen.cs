@@ -63,15 +63,42 @@ public sealed partial class PlayScreen : IScreen, IDisposable
         _weapon = o.Weapon;
         // Las capturas y el piloto automático quieren los sonidos listos desde el principio.
         if (o.ShotTime > 0 || o.Seq > 0 || o.AutoPlay) Audio.Sounds.Wait();
+        _intro = o.ForceIntro || !(o.NoIntro || o.ShotTime > 0 || o.Seq > 0 || o.AutoPlay || o.TestFoes || o.NoEnemies);
         StartFoes();
     }
 
+    /// <summary>La placa de entrada (la historia y los controles) y la pausa.</summary>
+    private bool _intro, _paused;
+    private float _introT;
+
     public void Update(float dt)
     {
+        var input = _game.Input;
+        if (_intro)
+        {
+            _introT += dt;
+            input.Captured = false;
+            if (_introT > 0.6f && (input.AnyPressed || _introT > 25)) { _intro = false; input.Captured = true; }
+            return;
+        }
+        if (input.Pressed(Keys.Escape)) { _paused = !_paused; input.Captured = !_paused; }
+        if (_paused)
+        {
+            if (input.Pressed(Keys.Q)) _game.Exit();
+            if (input.LeftPressed) { _paused = false; input.Captured = true; }
+            return;
+        }
+        // La sensibilidad del mouse: [ y ].
+        if (input.Pressed(Keys.OemOpenBrackets) || input.Pressed(Keys.OemCloseBrackets))
+        {
+            _mouseSens *= input.Pressed(Keys.OemOpenBrackets) ? 1 / 1.12f : 1.12f;
+            Banner($"SENSIBILIDAD {_mouseSens * 1000:0.0}");
+            _bannerT = 1.2f;
+        }
         _time += dt;
         _r.Time = _time;
-        var input = _game.Input;
         var it = _game.Options.AutoPlay ? AutoIntent(dt) : ReadIntent(input);
+        if (_game.Options.KickTest && (int)(_time) != (int)(_time - dt)) it.Kick = true;
 
         // El golpe que congela un instante (la patada que pega, la tiza devuelta): el mundo se para, la cabeza no.
         float wdt = _freeze > 0 ? 0 : dt;
@@ -94,7 +121,6 @@ public sealed partial class PlayScreen : IScreen, IDisposable
         mx.ListenerRight = N(_r.Cam.Right);
         mx.ListenerForward = N(_r.Cam.Forward);
         Ambience(dt);
-        if (input.Pressed(Keys.Escape)) _game.Exit();
     }
 
     private static System.Numerics.Vector3 N(Vector3 v) => new(v.X, v.Y, v.Z);

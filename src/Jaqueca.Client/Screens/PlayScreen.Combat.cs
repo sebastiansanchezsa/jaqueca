@@ -560,13 +560,23 @@ public sealed partial class PlayScreen
             var col = new Color(t.Color.R, t.Color.G, t.Color.B, (byte)(255 * k));
             _r.Glow.Quad(t.A - side, t.B - side, t.B + side, t.A + side, -cam.Forward, col);
         }
-        // El fogonazo en la punta del caño.
+        // El fogonazo en la punta del caño: una estrella de puntas finas (girada al azar) y el centro chico.
         if (_flashT > 0)
         {
-            var m = _vm.Muzzle(cam);
-            float s = _flashSize * (1.2f + Rnd(0, 0.6f));
-            _r.ViewGlow.Billboard(m, cam.Right, cam.Up, s, new Color(255, 210, 120, 255), -cam.Forward);
-            _r.ViewGlow.Billboard(m + AimDir * 0.8f, cam.Right, cam.Up, s * 0.6f, new Color(255, 250, 220, 255), -cam.Forward);
+            var m = _vm.Muzzle(cam) + AimDir * 0.4f;
+            float s = _flashSize * (0.7f + Rnd(0, 0.35f));
+            float rot = Rnd(0, MathF.PI);
+            var n = -cam.Forward;
+            for (int k = 0; k < 4; k++)
+            {
+                float a = rot + k * MathF.PI / 4;
+                var dir = cam.Right * MathF.Cos(a) + cam.Up * MathF.Sin(a);
+                var side = Vector3.Cross(dir, cam.Forward) * 0.09f * s;
+                float len = s * (k % 2 == 0 ? 1.1f : 0.6f);
+                _r.ViewGlow.Quad(m - dir * len - side, m + dir * len - side, m + dir * len + side, m - dir * len + side, n, new Color(255, 190, 90, 230));
+            }
+            _r.ViewGlow.Billboard(m, cam.Right, cam.Up, s * 0.28f, new Color(255, 245, 210, 255), n);
+            _r.ViewGlow.Billboard(m + AimDir * 0.5f, cam.Right, cam.Up, s * 0.18f, new Color(255, 220, 150, 200), n);
         }
     }
 }

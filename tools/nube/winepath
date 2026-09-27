@@ -1,0 +1,3 @@
+#!/bin/bash
+# El MGFXC pide "winepath -w ruta": devolvemos la ruta de Linux tal cual y la convierte wine64 (abajo).
+echo "${@: -1}"

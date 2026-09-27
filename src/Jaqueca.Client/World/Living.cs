@@ -33,7 +33,11 @@ public sealed class Living
         Carpet = new(120, 48, 40), Brass = new(186, 150, 80), Cream = new(222, 210, 180), FleshPink = new(196, 110, 118),
         Glass = new(56, 74, 82), Black = new(26, 22, 24), Plaster = new(206, 196, 170);
 
-    public Mesh Build(GraphicsDevice gd)
+    /// <summary>Arma el lugar y lo sube a la GPU (la malla estática).</summary>
+    public Mesh Build(GraphicsDevice gd) => Assemble().B.Build(gd);
+
+    /// <summary>Arma el lugar: lo que se ve (en el kit) y lo que frena (en <see cref="Solids"/>). Sin GPU: lo usan las pruebas.</summary>
+    public Kit Assemble()
     {
         Solids.Bounds = new Rectangle((int)-W, (int)-D, (int)(2 * W), (int)(2 * D));
         var k = new Kit(Solids);
@@ -56,7 +60,7 @@ public sealed class Living
             new Vector3(-110, 0, -80), new Vector3(0, 0, -80), new Vector3(110, 0, -70), new Vector3(125, 0, 20),
             new Vector3(-10, 0, 20), new Vector3(-120, 0, 30), new Vector3(10, 0, 95), new Vector3(-60, 0, 90),
         });
-        return k.B.Build(gd);
+        return k;
     }
 
     // ------------------------------------------------------------------ piso y paredes

@@ -78,7 +78,7 @@ public sealed partial class Foe
     /// <summary>Avanza el cuerpo: la simulación ya movió <see cref="Pos"/>; el animador lo sigue.</summary>
     public void Animate(float dt)
     {
-        Flash = MathF.Max(0, Flash - dt * 6);
+        Flash = MathF.Max(0, Flash - dt * 9);
         if (Dead)
         {
             DeadTime += dt;
@@ -103,7 +103,7 @@ public sealed partial class Foe
         }
         var bones = Art.Mesh.Pose(Anim.Bones, world, Anim.Mask);
         Array.Copy(bones, Pal, Pal.Length);
-        return new FigureDraw { Mesh = Art.Mesh, Bones = Pal, Mask = Anim.Mask, Flash = new Vector4(1, 0.95f, 0.9f, Flash * 0.85f), CastsShadow = true };
+        return new FigureDraw { Mesh = Art.Mesh, Bones = Pal, Mask = Anim.Mask, Flash = new Vector4(1, 0.72f, 0.66f, Flash * 0.55f), CastsShadow = true };
     }
 
     private readonly Random _rng;

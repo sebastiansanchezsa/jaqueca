@@ -21,6 +21,8 @@ public sealed class InputState
     public bool UsingGamepad { get; private set; }
 
     private bool _relative, _sdlFailed, _wasActive;
+    /// <summary>El mouse atrapado para mirar (en pausa se suelta).</summary>
+    public bool Captured = true;
 
     [DllImport("SDL2", CallingConvention = CallingConvention.Cdecl)]
     private static extern int SDL_SetRelativeMouseMode(int enabled);
@@ -35,9 +37,9 @@ public sealed class InputState
         _g = GamePad.GetState(PlayerIndex.One);
 
         MouseDelta = Vector2.Zero;
-        if (active) Capture(window);
+        if (active && Captured) Capture(window);
         else if (_relative) Release();
-        _wasActive = active;
+        _wasActive = active && Captured;
 
         if (_g.IsConnected && (_g.ThumbSticks.Left.LengthSquared() > 0.1f || _g.ThumbSticks.Right.LengthSquared() > 0.1f || _g.Buttons != _pg.Buttons))
             UsingGamepad = true;
@@ -81,6 +83,17 @@ public sealed class InputState
     public bool LeftPressed => LeftDown && _pm.LeftButton != ButtonState.Pressed;
     public bool RightPressed => RightDown && _pm.RightButton != ButtonState.Pressed;
     public bool RightReleased => !RightDown && _pm.RightButton == ButtonState.Pressed;
+
+    /// <summary>Cualquier tecla, clic o botón del mando recién apretado.</summary>
+    public bool AnyPressed
+    {
+        get
+        {
+            foreach (var k in _k.GetPressedKeys()) if (!_pk.IsKeyDown(k)) return true;
+            if (LeftPressed || RightPressed) return true;
+            return PadPressed(Buttons.A) || PadPressed(Buttons.B) || PadPressed(Buttons.Start);
+        }
+    }
 
     public GamePadState Pad => _g;
     public bool PadDown(Buttons b) => _g.IsConnected && _g.IsButtonDown(b);

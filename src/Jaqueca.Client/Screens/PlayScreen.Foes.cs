@@ -110,7 +110,7 @@ public sealed partial class PlayScreen : IArena
 
     private Vector3 Jitter() => new(Rnd(-10, 10), 0, Rnd(-10, 10));
 
-    private void Banner(string text) { _banner = text; _bannerT = 3; }
+    private void Banner(string text) { _banner = text; _bannerT = 3; if (_game.Options.Debug) Console.WriteLine("[cartel] " + text); }
 
     private void UpdateFoes(float dt)
     {
@@ -118,6 +118,12 @@ public sealed partial class PlayScreen : IArena
         UpdateWaves(dt);
         _bannerT -= dt;
         if (wdt <= 0) return;
+        if (_game.Options.Debug && (int)(_time * 2) != (int)((_time - wdt) * 2))
+        {
+            var sb = new System.Text.StringBuilder("[pensamientos]");
+            foreach (var f in _foes) sb.Append($" {f.Kind}:{f.State}{(f.Dead ? "(muerto)" : "")} t={f.T:0.0} piso={f.Grounded} y={f.Pos.Y:0.0}");
+            Console.WriteLine(sb.ToString());
+        }
         using (Perf.Time("pensamientos"))
         {
             foreach (var f in _foes)

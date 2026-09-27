@@ -57,7 +57,7 @@ public sealed partial class PlayScreen
         {
             var v = (dir * Rnd(0.2f, 1.2f) + RndDir() * Rnd(0.2f, 0.9f)) * Rnd(40, 110) * (0.6f + amount * 0.25f);
             v.Y += Rnd(10, 60);
-            AddDrop(at + RndDir() * 0.5f, v, Rnd(0.18f, 0.45f) * (1 + amount * 0.12f), DropKind.Blood, BloodFly, 4);
+            AddDrop(at + RndDir() * 0.5f, v, Rnd(0.12f, 0.28f) * (1 + amount * 0.1f), DropKind.Blood, BloodFly, 4);
         }
         // Pedacitos de carne en lo fuerte.
         if (amount >= 1.5f)
@@ -86,7 +86,7 @@ public sealed partial class PlayScreen
         for (int i = 0; i < count; i++)
         {
             var v = (n * Rnd(0.3f, 1) + RndDir() * 0.8f) * (kind == DropKind.Spark ? Rnd(80, 200) : Rnd(15, 50));
-            AddDrop(at + n * 0.3f, v, kind == DropKind.Spark ? Rnd(0.1f, 0.2f) : Rnd(0.3f, 0.8f), kind, col, kind == DropKind.Spark ? 0.3f : 1.2f);
+            AddDrop(at + n * 0.3f, v, kind == DropKind.Spark ? Rnd(0.1f, 0.2f) : Rnd(0.18f, 0.42f), kind, col, kind == DropKind.Spark ? 0.3f : Rnd(0.6f, 1.2f));
         }
     }
 
@@ -126,6 +126,19 @@ public sealed partial class PlayScreen
         }
     }
 
+    /// <summary>Una gota en el aire: estirada hacia donde va (una rayita, no un cuadrado).</summary>
+    private void Streak(Vector3 p, Vector3 vel, float size, Color col)
+    {
+        var cam = _r.Cam;
+        var v = vel - cam.Forward * Vector3.Dot(vel, cam.Forward);
+        float sp = v.Length();
+        if (sp < 1) { _r.Flat.Billboard(p, cam.Right, cam.Up, size, col, -cam.Forward); return; }
+        var dir = v / sp;
+        var side = Vector3.Cross(dir, cam.Forward) * size;
+        var len = dir * (size + MathF.Min(sp * 0.012f, 1.6f));
+        _r.Flat.Quad(p - len - side, p + len - side, p + len + side, p - len + side, -cam.Forward, col);
+    }
+
     private void DrawBlood()
     {
         var cam = _r.Cam;
@@ -142,7 +155,10 @@ public sealed partial class PlayScreen
                     _r.Glow.Billboard(d.Pos, right, up, d.Size, new Color(255, 200, 120, 255), n);
                     break;
                 case DropKind.Dust:
-                    _r.Flat.Billboard(d.Pos, right, up, d.Size * (1.4f - d.Life * 0.3f), d.Color, n);
+                    _r.Flat.Billboard(d.Pos, right, up, d.Size * MathF.Min(1, d.Life * 1.5f), d.Color, n);
+                    break;
+                case DropKind.Blood:
+                    Streak(d.Pos, d.Vel, d.Size, d.Color);
                     break;
                 default:
                     _r.Flat.Billboard(d.Pos, right, up, d.Size, d.Color, n);

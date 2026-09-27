@@ -40,6 +40,9 @@ public sealed class ViewModel
     public static Vector3 RevolverAt = new(8.0f, -3.4f, 3.8f), RevolverTurn = new(0.27f, 0.07f, 0.25f);
     public static Vector3 ShotgunAt = new(8.2f, -3.6f, 3.4f), ShotgunTurn = new(0.28f, 0.06f, 0.3f);
     public static float RevolverScale = 1.1f, ShotgunScale = 0.8f;
+    /// <summary>La pierna en lo más alto de la patada.</summary>
+    public static Vector3 LegAt = new(10.5f, -3.8f, -0.9f), LegTurn = new(0f, 0.7f, -0.15f);
+    public static float LegScale = 1.25f;
 
     /// <summary>Guarda una y saca la otra.</summary>
     public void Switch(int weapon) => _want = weapon;
@@ -115,8 +118,9 @@ public sealed class ViewModel
             float t = _kick / KickTime;
             float up = t < 0.3f ? t / 0.3f : 1 - (t - 0.3f) / 0.7f;
             up = MathF.Sin(up * MathF.PI / 2);
-            var legOff = new Vector3(2.5f + up * 3.0f, -9.5f + up * 5.3f, 0.6f - up * 0.6f);
-            var leg = Frame(cam, legOff, 0.05f, -0.9f + up * 0.75f, 0);
+            // El pie sube desde abajo de la pantalla hasta el medio, con la punta para arriba (la suela adelante).
+            var legOff = new Vector3(LegAt.X - 3.5f * (1 - up), LegAt.Y - 7.5f * (1 - up), LegAt.Z + 1.4f * (1 - up));
+            var leg = Frame(cam, legOff, LegTurn.X, LegTurn.Y - 0.9f * (1 - up), LegTurn.Z, LegScale);
             for (int i = 0; i < _leg.Length; i++) _leg[i] = leg;
             r.ViewModel.Add(new FigureDraw { Mesh = _art.Leg, Bones = _leg });
         }

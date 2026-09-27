@@ -21,7 +21,8 @@ public sealed class VerletBody
     /// caer al vacío). Así un cuerpo tirado de un golpe no atraviesa las paredes.
     /// </summary>
     public Func<Vector3, Vector3, float, Vector3> Walls;
-    public float Gravity = 170, Damping = 0.996f, Friction = 0.55f, Bounce = 0.25f;
+    // Más pesado que en Inquisition: en primera persona se ve caer de cerca y a 170 flotaba.
+    public float Gravity = 300, Damping = 0.996f, Friction = 0.55f, Bounce = 0.25f;
     public int Iterations = 8;
     public bool Asleep { get; private set; }
     private float _still, _impact, _h = 1 / 120f;

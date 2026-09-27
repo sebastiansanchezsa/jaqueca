@@ -147,6 +147,16 @@ public sealed partial class PlayScreen
             Text(sb, dest, scale, _banner, W / 2, 70, new Color(245, 225, 215) * a, 2, center: true);
         }
 
+        if (_paused)
+        {
+            Rect(sb, dest, scale, 0, 0, W, H, new Color(10, 2, 6, 170));
+            Text(sb, dest, scale, "PAUSA", W / 2, 130, new Color(240, 220, 215), 3, center: true);
+            Text(sb, dest, scale, "CLIC PARA SEGUIR  ·  ESC TAMBIÉN  ·  Q PARA SALIR", W / 2, 175, new Color(200, 170, 170), center: true);
+            Text(sb, dest, scale, $"SENSIBILIDAD DEL MOUSE {_mouseSens * 1000:0.0}  ( [ Y ] PARA CAMBIARLA )", W / 2, 195, new Color(170, 140, 150), center: true);
+            Controls(sb, dest, scale, 230);
+        }
+        if (_intro) Intro(sb, dest, scale);
+
         if (_game.Options.Debug)
         {
             Text(sb, dest, scale, $"{_game.Fps:0} fps  pensamientos {_foes.Count}  pedazos {_pieces.Count}  gotas {_dropN}", 14, 30, Color.White);
@@ -154,6 +164,38 @@ public sealed partial class PlayScreen
         }
         sb.End();
         if (_game.Options.Debug && (int)(_time * 1) != (int)((_time - 1 / 60f) * 1)) Console.WriteLine("[cuadro] " + Perf.Report());
+    }
+
+    private void Controls(SpriteBatch sb, Rectangle dest, int scale, int y)
+    {
+        int W = JaquecaGame.LowW;
+        var c = new Color(190, 160, 165);
+        Text(sb, dest, scale, "WASD CAMINAR  ·  ESPACIO SALTAR (TAMBIÉN EN LAS PAREDES)  ·  SHIFT DASH", W / 2, y, c, center: true);
+        Text(sb, dest, scale, "CTRL DESLIZARSE  ·  CTRL EN EL AIRE: DE CABEZA AL PISO (SALTÁ AL CAER: REBOTE)", W / 2, y + 12, c, center: true);
+        Text(sb, dest, scale, "CLIC TIRAR  ·  CLIC DERECHO: CARGAR EL TIRO QUE ATRAVIESA  ·  F PATADA (DEVUELVE LO QUE TE TIRAN)", W / 2, y + 24, c, center: true);
+        Text(sb, dest, scale, "1 REVÓLVER  ·  2 ESCOPETA  ·  LA SANGRE DE CERCA CURA", W / 2, y + 36, c, center: true);
+    }
+
+    /// <summary>La placa de entrada: el título, cómo llegó Ernesto acá y los controles.</summary>
+    private void Intro(SpriteBatch sb, Rectangle dest, int scale)
+    {
+        int W = JaquecaGame.LowW, H = JaquecaGame.LowH;
+        float a = MathF.Min(1, _introT * 2);
+        Rect(sb, dest, scale, 0, 0, W, H, new Color(12, 3, 7) * MathF.Min(0.93f, 0.5f + a * 0.45f));
+        var title = new Color(230, 70, 80) * a;
+        Text(sb, dest, scale, "JAQUECA", W / 2, 58, title, 4, center: true);
+        var tc = new Color(225, 205, 200) * a;
+        string[] story =
+        {
+            "ERNESTO BAZÁN, 43 AÑOS. HACE ONCE DÍAS QUE LE DUELE LA CABEZA.",
+            "ESTA NOCHE SE TOMÓ TRES IBUPROFENOS CON UN FERNET Y SE DURMIÓ EN EL SILLÓN CON LA TELE PRENDIDA.",
+            "SE DESPERTÓ ADENTRO DE SU PROPIA CABEZA. EN PIJAMA. CON EL REVÓLVER DE CEBITA DE CUANDO TENÍA SIETE,",
+            "QUE AHORA TIRA DE VERDAD. LOS RECUERDOS ESTÁN LLENOS DE GENTE QUE LE ARRUINÓ LA VIDA.",
+            "HAY QUE LLEGAR AL FONDO DEL DOLOR.",
+        };
+        for (int i = 0; i < story.Length; i++) Text(sb, dest, scale, story[i], W / 2, 115 + i * 13, tc, center: true);
+        Controls(sb, dest, scale, 215);
+        if (_introT > 0.6f && (int)(_introT * 2) % 2 == 0) Text(sb, dest, scale, "APRETÁ CUALQUIER TECLA", W / 2, 300, new Color(240, 220, 200), center: true);
     }
 
     // ------------------------------------------------------------------ el piloto automático
@@ -188,6 +230,8 @@ public sealed partial class PlayScreen
             bool onTarget = MathF.Abs(Figures.Anim.Animator.Wrap(yaw - _p.Yaw)) < 0.08f;
             it.Fire = onTarget && _cooldown <= 0;
             it.Move = new Vector2(_autoStrafe, dist > 60 ? 1 : dist < 25 ? -1 : 0);
+            // Cerca: patada.
+            if (dist < 26 && _kickCool <= 0 && _brng.Next(3) == 0) it.Kick = true;
         }
         if (_autoT > _autoJump) { it.Jump = true; it.JumpHeld = true; _autoJump = _autoT + 1.3f + (float)_brng.NextDouble() * 2; if (_brng.Next(3) == 0) it.Dash = true; }
         if (_brng.NextDouble() < dt * 0.5f) _autoStrafe = -_autoStrafe;

@@ -1,0 +1,21 @@
+#!/bin/bash
+# Falso wine64 para el MGFXC de MonoGame: recibe "dotnet c:\fxccs.dll ENTRADA FUNCION PERFIL FLAGS... RUTA SALIDA"
+# y compila con fxc2.exe (d3dcompiler de Microsoft) bajo el wine de verdad.
+args=("$@")
+in="${args[2]}"; fn="${args[3]}"; prof="${args[4]}"; out="${args[-1]}"
+flags=0
+for ((i=5; i<${#args[@]}-1; i++)); do
+  t="${args[$i]%,}"
+  case "$t" in
+    Debug) flags=$((flags|1));; SkipValidation) flags=$((flags|2));; SkipOptimization) flags=$((flags|4));;
+    PackMatrixRowMajor) flags=$((flags|8));; PackMatrixColumnMajor) flags=$((flags|16));; PartialPrecision) flags=$((flags|32));;
+    ForceVSSoftwareNoOpt) flags=$((flags|64));; ForcePSSoftwareNoOpt) flags=$((flags|128));; NoPreshader) flags=$((flags|256));;
+    AvoidFlowControl) flags=$((flags|512));; PreferFlowControl) flags=$((flags|1024));; EnableStrictness) flags=$((flags|2048));;
+    EnableBackwardsCompatibility) flags=$((flags|4096));; IeeeStrictness) flags=$((flags|8192));;
+    OptimizationLevel0) flags=$((flags|16384));; OptimizationLevel2) flags=$((flags|49152));; OptimizationLevel3) flags=$((flags|32768));;
+    WarningsAreErrors) flags=$((flags|262144));;
+  esac
+done
+win() { echo "Z:${1//\//\\}"; }
+export WINEPREFIX="${WINEPREFIX:-/opt/mgfxwine/prefix}" WINEDEBUG=-all WINEDLLOVERRIDES="mscoree,mshtml="
+exec /usr/lib/wine/wine64 /opt/mgfxwine/fxc2.exe "$(win "$in")" "$fn" "$prof" "$flags" "$(win "$out")"

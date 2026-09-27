@@ -111,7 +111,7 @@ public sealed partial class Foe
         {
             case Mode.Chase:
                 // Ernesto arriba de un mueble y cerca: salta atrás de él.
-                if (dy > 9 && dist < 70 && Grounded && _cool <= 0) { Leap(a.Player.Feet, dist); break; }
+                if (dy > 9 && dist < 70 && Grounded && a.Player.Grounded && _cool <= 0) { Leap(a.Player.Feet, dist); break; }
                 if (dist < 24 && MathF.Abs(dy) < 9 && _cool <= 0)
                 {
                     State = Mode.Windup; T = 0;
